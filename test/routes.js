@@ -2,25 +2,20 @@
  * Tests various default URLS that must be supplied with Tikapot 3.0
  */
 
-var request = require('request');
+var http = require('http');
 var assert = require("assert");
 var app = require("../server/app.js");
 
-test_port = 9090
-app.run(test_port)
+// Start the app
+app.run(9090);
 
-describe('Tikapot Default Routes', function(){
+// Start the tests
 
-    /**
-     * Test there is a default home page
-     */
-    describe('GET /', function(){
-        it("should respond with a homepage", function(done){
-            request('127.0.0.1:' + test_port, function(err,resp,body){
-                assert(!err);
-                done(); 
-            }); 
-        }); 
+describe('Tikapot Default Routes', function () {
+    it('should return 200', function (done) {
+        http.get('http://localhost:9090', function (res) {
+            assert.equal(200, res.statusCode);
+            done();
+        });
     });
-
 });
