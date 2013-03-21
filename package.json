@@ -2,6 +2,7 @@
     "name": "Tikapot-3.0",
     "version": "3.0.0",
     "dependencies": {
+        "request": "2.x",
         "socket.io": "0.9.x",
         "socket.io-client": "0.9.x",
         "express": "3.x",
@@ -9,6 +10,7 @@
         "mongoose": "3.6.x",
         "mocha": "1.8.x",
         "connect-cachify": "0.0.13",
+        "assert": "0.4.x",
         "jsdoc3": "https://github.com/jsdoc3/jsdoc/tarball/master"
     },
     "scripts": {
