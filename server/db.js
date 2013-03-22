@@ -29,9 +29,9 @@ exports.models = {}
 exports.models.Page = mongoose.model('Page', mongoose.Schema({
 	version: Number,
 	url: String,
+	author: String,
 	template: String,
-	content: String,
-	snippets: [mongoose.Schema.Types.Mixed],
+	data:  mongoose.Schema.Types.Mixed,
 	created: { type: Date, default: Date.now },
 	live: Boolean
 }));
