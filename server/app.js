@@ -5,7 +5,8 @@
 var express = require('express');
 var http = require('http');
 var db = require("./db.js");
-var api = require("./api.js")
+var api = require("./api.js");
+var Template = require("./template.js").Template;
 
 /** DB Settings */
 var mongodb_host = "localhost";
@@ -28,16 +29,21 @@ exports.run = function(port, callback) {
 	// Begin with our client folder as a file store
 	app.use(express.static(__dirname + '/../client/'));
 
+	// Start templating engine
+	templating = new Template();
+
 	// Database handles all pages
 	app.use(function(req, res) {
+
 		api.getPage(req.originalUrl, function(err, page) {
-			if (err) {
+			if (err || !page) {
 				res.send(404);
 			} else {
-				// Send to render engine (eventually)
-				res.send(page.data.content);
+				// Send to render engine
+				templating.render(res, page);
 			}
 		});
+
 	})
 
 	// Start the HTTP server
@@ -45,8 +51,8 @@ exports.run = function(port, callback) {
 
 	// Callback when we are listening
 	httpServer.on("listening", function() {
-		console.log("Connected and listening on port " + port);
 
+		console.log("Connected and listening on port " + port);
 		console.log("Loading Database...");
 
 		// Load up mongo db
@@ -58,6 +64,7 @@ exports.run = function(port, callback) {
 		if (typeof callback != "undefined") {
 			return callback();
 		}
+
 	});
 
 };

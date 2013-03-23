@@ -28,5 +28,10 @@ exports.getPage = function(location, callback) {
 	var query = db.models.Page.findOne({
 		url: location
 	});
-	query.exec(callback);
+	query.exec(function (err, data) {
+		if (!err && !data) {
+			err = "404 - Page cannot be found";
+		}
+		callback(err, data);
+	});
 };
