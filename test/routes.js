@@ -7,14 +7,16 @@ var assert = require("assert");
 var db = require("../server/db.js");
 var app = require("../server/app.js");
 
-// Start the app
-app.runTest(9090);
 
 // Start the tests
 
 describe('Tikapot Routing Tests', function () {
 
     before(function () {
+        // Start the apps
+        app.runTest(9090, true);
+        app.runTest(9091, false);
+
     	// Wipe out all pages
     	var pages = new db.models.Page();
     	pages.collection.drop();
@@ -25,15 +27,19 @@ describe('Tikapot Routing Tests', function () {
     	});
     });
 
+    after(function() {
+        app.shutdown();
+    });
+
     it('should have a valid page in the database', function (done) {
-        app.api.getPage("/", function(err, page) {
+        app.api.getPage("/", function (err, page) {
             assert.ifError(err);
             done();
         });
     });
 
     it('should have an author called: Example Author', function (done) {
-        app.api.getPage("/", function(err, page) {
+        app.api.getPage("/", function (err, page) {
             assert.ifError(err);
             assert.equal(page.author, "Example Author");
             done();
@@ -41,7 +47,7 @@ describe('Tikapot Routing Tests', function () {
     });
 
     it('should have a default template', function (done) {
-        app.api.getPage("/", function(err, page) {
+        app.api.getPage("/", function (err, page) {
             assert.ifError(err);
             assert.equal(page.template, "default");
             done();
@@ -49,7 +55,7 @@ describe('Tikapot Routing Tests', function () {
     });
 
     it('should not be live', function (done) {
-        app.api.getPage("/", function(err, page) {
+        app.api.getPage("/", function (err, page) {
             assert.ifError(err);
             assert.equal(page.live, false);
             done();
@@ -57,7 +63,7 @@ describe('Tikapot Routing Tests', function () {
     });
 
     it('should have some html', function (done) {
-        app.api.getPage("/", function(err, page) {
+        app.api.getPage("/", function (err, page) {
             assert.ifError(err);
             assert.equal(page.data.content, "<h1>Test</h1>");
             done();

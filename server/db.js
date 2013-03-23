@@ -1,22 +1,38 @@
 
 var mongoose = require('mongoose');
 
+var connected = false;
+
 /**
  * Connect to mongodb
  */
 exports.connect = function(host, port, dbName, callback) {
 
-	mongoose.connect("mongodb://" + host + ":" + port + "/" + dbName, function(err, db) {
-		if (err) {
-			console.dir(err);
-		}
-
+	if (connected) {
 		if (typeof callback != "undefined") {
-			return callback(mongoose);
+			callback(mongoose);
 		}
-	});
+	} else {
+		mongoose.connect("mongodb://" + host + ":" + port + "/" + dbName, function (err, db) {
+			if (err) {
+				console.dir(err);
+			} else {
+				connected = true;
+			}
 
-	return mongoose
+			if (typeof callback != "undefined") {
+				callback(mongoose);
+			}
+		});
+	}
+
+	return mongoose;
+};
+
+exports.close = function() {
+	if (connected) {
+		mongoose.disconnect();
+	}
 };
 
 /**
