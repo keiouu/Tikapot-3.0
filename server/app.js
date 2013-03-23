@@ -19,24 +19,26 @@ var setup = false;
 /**
  * Setup Tikapot 3.0
  */
-exports.setup = function () {
-	if (setup) return;
+exports.setup = function() {
+	if (setup) {
+		return;
+	}
 
 	// Load up mongo db
 	console.log("Loading Database...");
-	db.connect(mongodb_host, mongodb_port, mongodb_name, function (mongoose) {});
+	db.connect(mongodb_host, mongodb_port, mongodb_name, function(mongoose) {});
 
 	setup = true;
 };
 
 /**
  * Run Tikapot 3.0
- * 
- * @param  integer 	port 		The port to run on (e.g. 80)
- * @param  boolean 	isLive 		Should this be treated as a live server?
- * @param  function callback 	The callback to run
+ *
+ * @param  integer   port     The port to run on (e.g. 80)
+ * @param  boolean   isLive     Should this be treated as a live server?
+ * @param  function callback   The callback to run
  */
-exports.run = function (port, isLive, callback) {
+exports.run = function(port, isLive, callback) {
 
 	exports.setup();
 
@@ -45,16 +47,13 @@ exports.run = function (port, isLive, callback) {
 	var app = express();
 	var httpServer = http.createServer(app);
 
-	// Begin with our client folder as a file store
-	app.use(express.static(__dirname + '/../client/'));
-
 	// Start templating engine
 	var templating = new Template();
 
 	// Database handles all pages
 	app.use(function(req, res) {
 
-		api.getPage(req.originalUrl, function (err, page) {
+		api.getPage(req.originalUrl, function(err, page) {
 			if (err || !page) {
 				if (isLive) {
 					res.send(404);
@@ -67,7 +66,7 @@ exports.run = function (port, isLive, callback) {
 			}
 		});
 
-	})
+	});
 
 	// Start the HTTP server
 	httpServer.listen(port);
@@ -78,7 +77,7 @@ exports.run = function (port, isLive, callback) {
 		console.log("Connected and listening on port " + port);
 		console.log("Ready to serve!");
 
-		if (typeof callback != "undefined") {
+		if (callback !== undefined) {
 			return callback();
 		}
 
@@ -89,24 +88,24 @@ exports.run = function (port, isLive, callback) {
 /**
  * Shutdown the application
  */
-exports.shutdown = function () {
+exports.shutdown = function() {
 	db.close();
 };
 
 /**
  * Run Tikapot 3.0 in test mode
- * 
- * @param  integer 	port 		The port to run on (e.g. 80)
- * @param  boolean 	isLive 		Should this be treated as a live server?
- * @param  function callback 	The callback to run
+ *
+ * @param  integer   port     The port to run on (e.g. 80)
+ * @param  boolean   isLive     Should this be treated as a live server?
+ * @param  function callback   The callback to run
  */
-exports.runTest = function (port, isLive, callback) {
+exports.runTest = function(port, isLive, callback) {
 	console.log("");
 	console.log("TEST BUILD");
 	mongodb_name = "tps_test";
 	exports.run(port, isLive, callback);
 };
 
-process.on('SIGTERM', function () {
+process.on('SIGTERM', function() {
 	exports.shutdown();
 });

@@ -4,11 +4,11 @@
 
 exports.Template = function() {
 
-	this.render = function (res, page) {
+	this.render = function(res, page) {
 		res.send(page.data.content);
 	};
 
-	this.basePage = function (res) {
+	this.basePage = function(res) {
 		res.send("This page does not exist, create it?");
 	};
 

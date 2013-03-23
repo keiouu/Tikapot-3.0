@@ -15,7 +15,7 @@ exports.createPage = function(url, author, template, content) {
 		live: false
 	});
 
-	page.save(function (err) {
+	page.save(function(err) {
 		if (err) {
 			console.log("Error saving page: " + url);
 		} else {
@@ -28,7 +28,7 @@ exports.getPage = function(location, callback) {
 	var query = db.models.Page.findOne({
 		url: location
 	});
-	query.exec(function (err, data) {
+	query.exec(function(err, data) {
 		if (!err && !data) {
 			err = "404 - Page cannot be found";
 		}
