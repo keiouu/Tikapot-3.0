@@ -19,14 +19,14 @@ var setup = false;
 /**
  * Setup Tikapot 3.0
  */
-exports.setup = function() {
+exports.setup = function () {
 	if (setup) {
 		return;
 	}
 
 	// Load up mongo db
 	console.log("Loading Database...");
-	db.connect(mongodb_host, mongodb_port, mongodb_name, function(mongoose) {});
+	db.connect(mongodb_host, mongodb_port, mongodb_name, function (mongoose) {});
 
 	setup = true;
 };
@@ -38,7 +38,7 @@ exports.setup = function() {
  * @param  boolean   isLive     Should this be treated as a live server?
  * @param  function callback   The callback to run
  */
-exports.run = function(port, isLive, callback) {
+exports.run = function (port, isLive, callback) {
 
 	exports.setup();
 
@@ -51,9 +51,9 @@ exports.run = function(port, isLive, callback) {
 	var templating = new Template();
 
 	// Database handles all pages
-	app.use(function(req, res) {
+	app.use(function (req, res) {
 
-		api.getPage(req.originalUrl, function(err, page) {
+		api.getPage(req.originalUrl, function (err, page) {
 			if (err || !page) {
 				if (isLive) {
 					res.send(404);
@@ -72,7 +72,7 @@ exports.run = function(port, isLive, callback) {
 	httpServer.listen(port);
 
 	// Callback when we are listening
-	httpServer.on("listening", function() {
+	httpServer.on("listening", function () {
 
 		console.log("Connected and listening on port " + port);
 		console.log("Ready to serve!");
@@ -88,7 +88,7 @@ exports.run = function(port, isLive, callback) {
 /**
  * Shutdown the application
  */
-exports.shutdown = function() {
+exports.shutdown = function () {
 	db.close();
 };
 
@@ -99,13 +99,13 @@ exports.shutdown = function() {
  * @param  boolean   isLive     Should this be treated as a live server?
  * @param  function callback   The callback to run
  */
-exports.runTest = function(port, isLive, callback) {
+exports.runTest = function (port, isLive, callback) {
 	console.log("");
 	console.log("TEST BUILD");
 	mongodb_name = "tps_test";
 	exports.run(port, isLive, callback);
 };
 
-process.on('SIGTERM', function() {
+process.on('SIGTERM', function () {
 	exports.shutdown();
 });

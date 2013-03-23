@@ -5,14 +5,14 @@ var connected = false;
 /**
  * Connect to mongodb
  */
-exports.connect = function(host, port, dbName, callback) {
+exports.connect = function (host, port, dbName, callback) {
 
 	if (connected) {
 		if (typeof callback != "undefined") {
 			callback(mongoose);
 		}
 	} else {
-		mongoose.connect("mongodb://" + host + ":" + port + "/" + dbName, function(err, db) {
+		mongoose.connect("mongodb://" + host + ":" + port + "/" + dbName, function (err, db) {
 			if (err) {
 				console.dir(err);
 			} else {
@@ -28,7 +28,7 @@ exports.connect = function(host, port, dbName, callback) {
 	return mongoose;
 };
 
-exports.close = function() {
+exports.close = function () {
 	if (connected) {
 		mongoose.disconnect();
 	}
