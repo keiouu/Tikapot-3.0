@@ -9,10 +9,9 @@
         "mongodb": "1.2.x",
         "mongoose": "3.6.x",
         "mocha": "1.8.x",
-        "connect-cachify": "0.0.13",
-        "jsdoc3": "https://github.com/jsdoc3/jsdoc/tarball/master"
+        "connect-cachify": "0.0.13"
     },
     "scripts": {
-		"test": "make test"
-	}
+        "test": "make test"
+    }
 }
