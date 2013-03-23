@@ -25,9 +25,14 @@ describe('Tikapot Routing Tests', function () {
             "content": "<h1>Test</h1>"
         });
 
-        // Create a home page
+        // Create an about page
         app.api.createPage("/about.html", "Example Author", "default", {
             "content": "<h1>About</h1>"
+        });
+
+        // Create a home page in a contact section
+        app.api.createPage("/contact/index.html", "Example Author", "default", {
+            "content": "<h1>Contact</h1>"
         });
     });
 
@@ -87,6 +92,13 @@ describe('Tikapot Routing Tests', function () {
     it('should not have an /about.html/', function (done) {
         http.get('http://localhost:9090/about.html/', function (res) {
             assert.equal(404, res.statusCode);
+            done();
+        });
+    });
+
+    it('should have a /contact/ page', function (done) {
+        http.get('http://localhost:9090/contact/', function (res) {
+            assert.equal(200, res.statusCode);
             done();
         });
     });
