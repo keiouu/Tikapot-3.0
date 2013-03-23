@@ -1,11 +1,21 @@
 {
-    "name": "Tikapot-3.0",
+    "name": "tikapot",
     "version": "3.0.0",
+    "author": "James Thompson <keiouu@gmail.com>",
+    "description": "Tikapot Web Server 3.0",
+    "homepage": "http://www.tikapot.com",
+    "main": "run",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:keiouu/Tikapot-3.0.git"
+    },
     "dependencies": {
         "socket.io": "0.9.x",
         "socket.io-client": "0.9.x",
         "express": "3.x",
-        "mongoose": "3.6.x",
+        "mongoose": "3.6.x"
+    },
+    "devDependencies": {
         "mocha": "1.8.x"
     },
     "scripts": {
