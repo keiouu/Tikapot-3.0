@@ -24,6 +24,11 @@ describe('Tikapot Routing Tests', function () {
         app.api.createPage("/", "Example Author", "default", {
             "content": "<h1>Test</h1>"
         });
+
+        // Create a home page
+        app.api.createPage("/about.html", "Example Author", "default", {
+            "content": "<h1>About</h1>"
+        });
     });
 
     after(function () {
@@ -65,6 +70,23 @@ describe('Tikapot Routing Tests', function () {
         app.api.getPage("/", function (err, page) {
             assert.ifError(err);
             assert.equal(page.data.content, "<h1>Test</h1>");
+            done();
+        });
+    });
+
+    it('should have an /about.html', function (done) {
+        http.get('http://localhost:9090/about.html', function (res) {
+            assert.equal(200, res.statusCode);
+            res.on('data', function (chunk) {
+                assert.equal(chunk, "<h1>About</h1>");
+            });
+            done();
+        });
+    });
+
+    it('should not have an /about.html/', function (done) {
+        http.get('http://localhost:9090/about.html/', function (res) {
+            assert.equal(404, res.statusCode);
             done();
         });
     });
