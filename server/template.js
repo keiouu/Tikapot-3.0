@@ -8,4 +8,8 @@ exports.Template = function() {
 		res.send(page.data.content);
 	};
 
+	this.basePage = function(res) {
+		res.send("This page does not exist, create it?");
+	};
+
 };

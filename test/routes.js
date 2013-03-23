@@ -71,4 +71,11 @@ describe('Tikapot Routing Tests', function () {
         });
     });
 
+    it('should return 404 for a page that doesnt exist', function (done) {
+        http.get('http://localhost:9090/thisshould404/', function (res) {
+            assert.equal(404, res.statusCode);
+            done();
+        });
+    });
+
 });

@@ -16,10 +16,11 @@ var mongodb_name = "tp3";
 /**
  * Run Tikapot 3.0
  * 
- * @param  integer port The port to run on (e.g. 80)
- * @param  function callback The callback to run
+ * @param  integer 	port 		The port to run on (e.g. 80)
+ * @param  boolean 	isLive 		Should this be treated as a live server?
+ * @param  function callback 	The callback to run
  */
-exports.run = function(port, callback) {
+exports.run = function(port, isLive, callback) {
 
 	console.log("Loading Express Server...");
 
@@ -37,7 +38,11 @@ exports.run = function(port, callback) {
 
 		api.getPage(req.originalUrl, function(err, page) {
 			if (err || !page) {
-				res.send(404);
+				if (isLive) {
+					res.send(404);
+				} else {
+					templating.basePage(res);
+				}
 			} else {
 				// Send to render engine
 				templating.render(res, page);
@@ -78,7 +83,7 @@ exports.run = function(port, callback) {
 exports.runTest = function(port, callback) {
 	console.log("DEBUG BUILD");
 	mongodb_name = "tps_test";
-	exports.run(port, callback);
+	exports.run(port, true, callback);
 };
 
 

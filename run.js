@@ -3,4 +3,4 @@
  */
 
 app = require("./server/app.js")
-app.run(8080)
+app.run(8080, false)
