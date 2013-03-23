@@ -6,10 +6,8 @@
         "socket.io": "0.9.x",
         "socket.io-client": "0.9.x",
         "express": "3.x",
-        "mongodb": "1.2.x",
         "mongoose": "3.6.x",
-        "mocha": "1.8.x",
-        "connect-cachify": "0.0.13"
+        "mocha": "1.8.x"
     },
     "scripts": {
         "test": "make test"
