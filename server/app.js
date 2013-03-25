@@ -114,10 +114,6 @@ exports.runTest = function (port, isLive, callback) {
 	exports.run(port, isLive, callback);
 };
 
-process.on('SIGTERM', function () {
-	exports.shutdown();
-});
+process.on('SIGTERM', exports.shutdown);
 
-process.on('SIGINT', function () {
-	exports.shutdown();
-});
+process.on('SIGINT', exports.shutdown);
