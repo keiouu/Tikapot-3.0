@@ -21,9 +21,18 @@ exports.Template = function (kiwi, tpl) {
       });
    };
 
+   this.loadCSS = function (res, page) {
+      res.render(tpl, page.data);
+   };
+
    /** Setup kiwi */
 
    kiwi.tools.createFilter('prepend', function (str, thing) {
       return thing + str;
    });
+
+   kiwi.tools.createSimpleTag('css', function (context, name) {
+      return kiwi.tools.safe('<link rel="stylesheet" type="text/css" href="' + name + '">');
+   });
+
 };

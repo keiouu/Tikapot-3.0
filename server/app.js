@@ -2,8 +2,9 @@
  * The primary server application
  */
 
-var express = require('express');
-var http = require('http');
+var express = require("express");
+var http = require("http");
+var fs = require("fs");
 var db = require("./db.js");
 var api = require("./api.js");
 var Template = require("./template.js").Template;
@@ -64,6 +65,22 @@ exports.run = function (port, isLive, callback) {
 
 	// Templating engine handles all pages
 	app.use(function (req, res) {
+
+		var isCss = req.path.substr(-3);
+		if (isCss === "css" || req.path.substr(-2) === "js") {
+			var file = req.path;
+			fs.readFile("." + file, function (err, data) {
+				if (err) {
+					console.log(err);
+					res.send(404);
+					return;
+				}
+				res.setHeader('Content-Type', isCss ? 'text/css' : 'text/javascript');
+				res.setHeader('Content-Length', data.length);
+				res.send(data);
+			});
+			return;
+		}
 
 		api.getPage(req.originalUrl, function (err, page) {
 			if (err || !page) {
