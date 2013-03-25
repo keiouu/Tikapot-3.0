@@ -6,8 +6,10 @@ var express = require('express');
 var http = require('http');
 var db = require("./db.js");
 var api = require("./api.js");
-exports.api = api;
 var Template = require("./template.js").Template;
+
+/** Exports */
+exports.api = api;
 
 /** DB Settings */
 var mongodb_host = "localhost";
@@ -47,13 +49,20 @@ exports.run = function (port, isLive, callback) {
 	console.log("Loading Express Server...");
 
 	var app = express();
+
+	// Load kiwi
+	var kiwi = require('kiwi');
+	app.engine('kiwi', kiwi.__express);
+	app.set('view engine', 'kiwi');
+
+	// Load and store the HTTP server
 	var httpServer = http.createServer(app);
 	servers.push(httpServer);
 
 	// Start templating engine
-	var templating = new Template();
+	var templating = new Template(kiwi, '../client/editor/templates/html5.kiwi');
 
-	// Database handles all pages
+	// Templating engine handles all pages
 	app.use(function (req, res) {
 
 		api.getPage(req.originalUrl, function (err, page) {
@@ -65,7 +74,7 @@ exports.run = function (port, isLive, callback) {
 				}
 			} else {
 				// Send to render engine
-				templating.render(res, page);
+				templating.load(res, page);
 			}
 		});
 
@@ -98,6 +107,7 @@ exports.shutdown = function () {
 		servers[i].close();
 	}
 	db.close();
+	process.exit();
 };
 
 /**

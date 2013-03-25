@@ -13,7 +13,8 @@
         "socket.io": "0.9.x",
         "socket.io-client": "0.9.x",
         "express": "3.x",
-        "mongoose": "3.6.x"
+        "mongoose": "3.6.x",
+        "kiwi": "0.2.x"
     },
     "devDependencies": {
         "mocha": "1.8.x"
