@@ -14,7 +14,9 @@ var mongodb_host = "localhost";
 var mongodb_port = 27017;
 var mongodb_name = "tp3";
 
+/** Misc. */
 var setup = false;
+var servers = [];
 
 /**
  * Setup Tikapot 3.0
@@ -46,6 +48,7 @@ exports.run = function (port, isLive, callback) {
 
 	var app = express();
 	var httpServer = http.createServer(app);
+	servers.push(httpServer);
 
 	// Start templating engine
 	var templating = new Template();
@@ -89,6 +92,9 @@ exports.run = function (port, isLive, callback) {
  * Shutdown the application
  */
 exports.shutdown = function () {
+	for (var i = 0; i < servers.length; i++) {
+		servers[i].close();
+	}
 	db.close();
 };
 
@@ -107,5 +113,9 @@ exports.runTest = function (port, isLive, callback) {
 };
 
 process.on('SIGTERM', function () {
+	exports.shutdown();
+});
+
+process.on('SIGINT', function () {
 	exports.shutdown();
 });
