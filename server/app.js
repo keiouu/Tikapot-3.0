@@ -114,6 +114,8 @@ exports.runTest = function (port, isLive, callback) {
 	exports.run(port, isLive, callback);
 };
 
+/**
+ * Handle system events properly
+ */
 process.on('SIGTERM', exports.shutdown);
-
 process.on('SIGINT', exports.shutdown);
