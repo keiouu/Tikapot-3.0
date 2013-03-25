@@ -90,6 +90,8 @@ exports.run = function (port, isLive, callback) {
 
 /**
  * Shutdown the application
+ *   - Closes http servers
+ *   - Closes DB connection
  */
 exports.shutdown = function () {
 	for (var i = 0; i < servers.length; i++) {
