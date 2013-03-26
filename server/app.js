@@ -63,24 +63,13 @@ exports.run = function (port, isLive, callback) {
 	// Start templating engine
 	var templating = new Template(kiwi, '../client/editor/templates/html5.kiwi');
 
+	// Handle static files
+	app.use('/static', express.static(__dirname + '/../static/'), {
+		maxAge: 86400000
+	});
+
 	// Templating engine handles all pages
 	app.use(function (req, res) {
-
-		var isCss = req.path.substr(-3);
-		if (isCss === "css" || req.path.substr(-2) === "js") {
-			var file = req.path;
-			fs.readFile("." + file, function (err, data) {
-				if (err) {
-					console.log(err);
-					res.send(404);
-					return;
-				}
-				res.setHeader('Content-Type', isCss ? 'text/css' : 'text/javascript');
-				res.setHeader('Content-Length', data.length);
-				res.send(data);
-			});
-			return;
-		}
 
 		api.getPage(req.originalUrl, function (err, page) {
 			if (err || !page) {

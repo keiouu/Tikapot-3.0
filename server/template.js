@@ -32,7 +32,7 @@ exports.Template = function (kiwi, tpl) {
    });
 
    kiwi.tools.createSimpleTag('css', function (context, name) {
-      return kiwi.tools.safe('<link rel="stylesheet" type="text/css" href="' + name + '">');
+      return kiwi.tools.safe('<link rel="stylesheet" type="text/css" href="/static/' + name + '">');
    });
 
 };
