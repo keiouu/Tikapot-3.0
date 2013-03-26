@@ -61,7 +61,7 @@ exports.run = function (port, isLive, callback) {
 	servers.push(httpServer);
 
 	// Start templating engine
-	var templating = new Template(kiwi, '../client/editor/templates/html5.kiwi');
+	var templating = new Template(kiwi, '../themes/editor/templates/html5.kiwi');
 
 	// Handle static files
 	app.use('/static', express.static(__dirname + '/../static/'), {
