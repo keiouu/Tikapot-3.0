@@ -9,11 +9,33 @@
 
     {{css "editor/css/bootstrap.min.css"}}
     {{css "editor/css/bootstrap-responsive.min.css"}}
+    {{css "editor/css/editor.css"}}
     
   </head>
 
   <body class="bootstrap">
-    ${content|raw}
+    <div id="wrap">
+
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <a class="brand" href="#">Developer Toolbar</a>
+          </div>
+        </div>
+      </div>
+    
+      <div class="container">
+        ${content|raw}
+      </div>
+
+      <div id="push"></div>
+    </div>
+    
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit">Powered by Tikapot 3.0</p>
+      </div>
+    </div>
   </body>
 
 </html>
