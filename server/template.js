@@ -2,7 +2,7 @@
  * Responsible for rendering templates, minifying CSS and JS and rendering snippets
  */
 
-var kiwi = require('kiwi');
+var basePage = require("./pages/editor/base.js").Page;
 
 exports.Template = function (kiwi, tpl) {
 
@@ -11,14 +11,8 @@ exports.Template = function (kiwi, tpl) {
    };
 
    this.basePage = function (res) {
-      res.render(tpl, {
-         meta: {
-            title: "New Page | Tikapot 3.0",
-            author: "Tikapot 3.0",
-            description: "Create a new page."
-         },
-         content: "This page does not exist, create it?"
-      });
+      basePage = require("./pages/editor/base.js").Page;
+      res.render(tpl, basePage);
    };
 
    this.loadCSS = function (res, page) {
