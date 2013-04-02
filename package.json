@@ -20,6 +20,6 @@
         "mocha": "1.8.x"
     },
     "scripts": {
-        "test": "make test"
+        "test": "mocha"
     }
 }
