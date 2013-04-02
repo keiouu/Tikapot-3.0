@@ -47,13 +47,17 @@ exports.getPage = function (req, callback) {
 		if (!err && !data) {
 			err = "404 - Page cannot be found";
 
+			// Try to grab a development page (wiki-style) if in dev mode
 			if (!directRequest && !req.live_mode) {
-				data = require("./pages/editor/base.js").Page;
+				require("./pages/editor/base.js").getBasePage(function (data) {
+					callback(err, data);
+				});
 			} else {
-				data = null;
+				callback(err, null);
 			}
+		} else {
+			callback(err, data);
 		}
-		callback(err, data);
 	});
 
 };
