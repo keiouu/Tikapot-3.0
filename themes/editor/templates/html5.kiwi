@@ -11,6 +11,7 @@
 
     {{css "editor/css/bootstrap.min.css"}}
     {{css "editor/css/bootstrap-responsive.min.css"}}
+    {{css "editor/css/mercury.bundle.css"}}
     {{css "editor/css/editor.css"}}
     
   </head>
@@ -26,7 +27,7 @@
         </div>
       </div>
     
-      <div class="container">
+      <div class="container" data-mercury="html">
         ${data.content|raw}
       </div>
 
@@ -38,6 +39,30 @@
         <p class="muted credit">Powered by Tikapot 3.0 | Page loaded in: ${req.startTime|loadTime}</p>
       </div>
     </div>
+    
+    {{js "editor/js/jquery-1.9.1.min.js"}}
+    {{js "editor/js/rangy-core.js"}}
+    {{js "editor/js/rangy-cssclassapplier.js"}}
+    {{js "editor/js/rangy-serializer.js"}}
+    {{js "editor/js/showdown-1.0.js"}}
+    {{js "editor/js/mercury.min.js"}}
+    {{js "editor/js/regions/html.min.js"}}
+    {{js "editor/js/regions/gallery.min.js"}}
+    {{js "editor/js/regions/image.min.js"}}
+    {{js "editor/js/regions/markdown.min.js"}}
+    {{js "editor/js/regions/plain.min.js"}}
+    {{js "editor/js/regions/text.min.js"}}
+    <script>$(function() {
+      $(".editPage").click(function() {
+        if (!window.mercury) {
+          $("body").addClass("editing");
+          window.mercury = Mercury.init();
+        } else {
+          $("body").removeClass("editing");
+          window.mercury.trigger('interface:hide');
+        }
+      })
+    });</script>
   </body>
 
 </html>

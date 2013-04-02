@@ -18,6 +18,7 @@ var mongodb_port = 27017;
 var mongodb_name = "tp3";
 
 /** Misc. */
+var testMode = false;
 var setup = false;
 var servers = [];
 
@@ -118,6 +119,10 @@ exports.shutdown = function () {
 		servers[i].close();
 	}
 	db.close();
+
+	if (!testMode) {
+		process.exit();
+	}
 };
 
 /**
@@ -130,6 +135,7 @@ exports.shutdown = function () {
 exports.runTest = function (port, isLive, callback) {
 	console.log("");
 	console.log("TEST BUILD");
+	testMode = true;
 	mongodb_name = "tps_test";
 	exports.run(port, isLive, callback);
 };

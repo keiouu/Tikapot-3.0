@@ -24,4 +24,8 @@ exports.Template = function (kiwi, tpl) {
       return kiwi.tools.safe('<link rel="stylesheet" type="text/css" href="/static/' + name + '">');
    });
 
+   kiwi.tools.createSimpleTag('js', function (context, name) {
+      return kiwi.tools.safe('<script src="/static/' + name + '"></script>');
+   });
+
 };
