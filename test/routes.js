@@ -22,16 +22,31 @@ describe('Tikapot Routing Tests', function () {
 
         // Create a home page
         app.api.createPage("/", "Example Author", "default", {
+            "meta": {
+                "title": "Test",
+                "description": "test",
+                "author": "Tikapot 3.0"
+            },
             "content": "<h1>Test</h1>"
         });
 
         // Create an about page
         app.api.createPage("/about.html", "Example Author", "default", {
+            "meta": {
+                "title": "Test",
+                "description": "test",
+                "author": "Tikapot 3.0"
+            },
             "content": "<h1>About</h1>"
         });
 
         // Create a home page in a contact section
         app.api.createPage("/contact/index.html", "Example Author", "default", {
+            "meta": {
+                "title": "Test",
+                "description": "test",
+                "author": "Tikapot 3.0"
+            },
             "content": "<h1>Contact</h1>"
         });
     });
@@ -83,7 +98,8 @@ describe('Tikapot Routing Tests', function () {
         http.get('http://localhost:9090/about.html', function (res) {
             assert.equal(200, res.statusCode);
             res.on('data', function (chunk) {
-                assert.equal(chunk, "<h1>About</h1>");
+                var doesContain = chunk.toString().indexOf("<h1>About</h1>") !== -1;
+                assert.equal(doesContain, true);
             });
             done();
         });

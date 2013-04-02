@@ -30,7 +30,10 @@ exports.createPage = function (location, author, template, content) {
 
 };
 
-exports.getPage = function (location, callback) {
+exports.getPage = function (req, callback) {
+
+	var directRequest = (typeof req === "string");
+	var location = (directRequest) ? req : req.originalUrl;
 
 	if (location.substr(-1) === "/") {
 		location = location + "index.html";
@@ -43,6 +46,12 @@ exports.getPage = function (location, callback) {
 	query.exec(function (err, data) {
 		if (!err && !data) {
 			err = "404 - Page cannot be found";
+
+			if (!directRequest && !req.live_mode) {
+				data = require("./pages/editor/base.js").Page;
+			} else {
+				data = null;
+			}
 		}
 		callback(err, data);
 	});

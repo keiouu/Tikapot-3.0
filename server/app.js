@@ -71,17 +71,22 @@ exports.run = function (port, isLive, callback) {
 	// Templating engine handles all pages
 	app.use(function (req, res) {
 
-		api.getPage(req.originalUrl, function (err, page) {
-			if (err || !page) {
-				if (isLive) {
-					res.send(404);
-				} else {
-					templating.basePage(res);
-				}
-			} else {
-				// Send to render engine
-				templating.load(res, page);
+		// Record the request start time
+		req.live_mode = isLive;
+		req.startTime = Date.now();
+
+		// Handle the page
+		api.getPage(req, function (err, page) {
+
+			if (page == null) {
+				res.send(404);
+				return;
 			}
+
+			// Send to render engine
+			page.req = req;
+			templating.load(res, page);
+
 		});
 
 	});
@@ -113,7 +118,6 @@ exports.shutdown = function () {
 		servers[i].close();
 	}
 	db.close();
-	process.exit();
 };
 
 /**

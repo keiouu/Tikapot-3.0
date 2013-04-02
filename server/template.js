@@ -7,22 +7,17 @@ var basePage = require("./pages/editor/base.js").Page;
 exports.Template = function (kiwi, tpl) {
 
    this.load = function (res, page) {
-      res.render(tpl, page.data);
-   };
-
-   this.basePage = function (res) {
-      basePage = require("./pages/editor/base.js").Page;
-      res.render(tpl, basePage);
-   };
-
-   this.loadCSS = function (res, page) {
-      res.render(tpl, page.data);
+      res.render(tpl, page);
    };
 
    /** Setup kiwi */
 
    kiwi.tools.createFilter('prepend', function (str, thing) {
       return thing + str;
+   });
+
+   kiwi.tools.createFilter('loadTime', function (startDate) {
+      return ((Date.now() - parseInt(startDate)) / 1000.0) + "ms";
    });
 
    kiwi.tools.createSimpleTag('css', function (context, name) {
